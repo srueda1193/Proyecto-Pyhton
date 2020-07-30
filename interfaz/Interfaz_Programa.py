@@ -1,10 +1,13 @@
 from tkinter import *
 
+from Interfaz_Estadisticas import Interfaz_Estadisticas
+
+
 class Interfaz_Programa:
 
     def __init__(self):
         self.raiz = Tk()
-        self.raiz.title("Proyecto Bimestral")
+        self.raiz.title("Proyecto Bimestral - Programa")
         self.mi_frame = Frame(self.raiz, width="1500", height="1400")
         self.mi_frame.pack()  # si quiero que se configure el tamanio se hace con fill y para cambiar en y ademas de eso usar el parametro, expand = True
         self.mi_frame.config(bg='gray')
@@ -17,7 +20,7 @@ class Interfaz_Programa:
         #aqui entraria la llamada al c[odigo que corre la deteccion de rostros
 
     def boton_ver_estadisticas(self):
-        exit()
+        Interfaz_Estadisticas()
         #aqui entraria la llamada al c[odigo que corre la deteccion de rostros
 
 

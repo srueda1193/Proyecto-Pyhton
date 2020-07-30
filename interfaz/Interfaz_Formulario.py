@@ -1,13 +1,11 @@
 from tkinter import *
-
 from Interfaz_Programa import Interfaz_Programa
-
 
 class Interfaz_Formulario:
 
     def __init__(self):
         self.raiz = Tk()
-        self.raiz.title("Proyecto Bimestral")
+        self.raiz.title("Proyecto Bimestral - Login")
         self.mi_frame = Frame(self.raiz, width="500", height="400")
         self.mi_frame.pack()  # si quiero que se configure el tamanio se hace con fill y para cambiar en y ademas de eso usar el parametro, expand = True
         self.mi_frame.config(bg='gray')

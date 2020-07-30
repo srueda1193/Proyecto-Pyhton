@@ -5,7 +5,7 @@ class Interfaz_Principal:
 
     def __init__(self):
         self.raiz = Tk()
-        self.raiz.title("Proyecto Bimestral")
+        self.raiz.title("Proyecto Bimestral - Principal")
         self.raiz.config(bg="black")
         self.mi_frame = Frame(self.raiz, width="500", height="400")
         self.mi_frame.pack()  # si quiero que se configure el tamanio se hace con fill y para cambiar en y ademas de eso usar el parametro, expand = True
