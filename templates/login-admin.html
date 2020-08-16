@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detector de Sentimientos</title>
+
+    
+    <!--css de bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/sandstone/bootstrap.min.css">
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <!--css propio-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+
+</head>
+
+<body>
+    
+    <main class="container p-5">
+        <br>
+        <br>
+        <br>
+        <br>
+            <div class="row">
+                <div class="col">
+                </div>
+                
+                <div class="col">
+                    <div class="col text-center">
+                        <img src="..\img\user.png">
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="col">
+                        <form action="/menu-admin">
+                            <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
+                                <div class="card-header">
+                                    <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus>
+                                </div>
+                                <div class="card-header">
+                                    <input type="text" name="password" placeholder="Password" class="form-control">
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Ingresar
+                            </button>
+                        </form>
+                    </div>  
+                </div>
+                <div class="col-md-4" >
+                    <form action="/">
+                        <button button type="submit" class="btn btn-primary btn-block">
+                            Regresar
+                        </button>
+                    </form>
+                </div> 
+            </div>
+    </main>
+</body>
+</html>

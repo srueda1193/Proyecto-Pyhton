@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Usuarios</title>
+    <!--css de bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/sandstone/bootstrap.min.css">
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <!--css propio-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+</head>
+<body >
+    <div id='general'>
+        <div class="row">
+            <div class="col-md-4  " id="formulario">
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <div class="text-center" >
+                    <img src="/templates/img/user.png" alt="icono">
+                    <h6>Administrador: </h6>
+                </div>
+                <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
+                    <div class="card-header">
+                        <form action="">        <!--Esto es para crear el formulario-->
+                            <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus>
+                        </form>
+                        <form action="">        <!--Esto es para crear el formulario-->
+                            <input type="text" name="cedula" placeholder="cedula" class="form-control">
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <form action="">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Buscar
+                            </button>
+                        </form>
+
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="card-body">
+                        <form action="/menu-admin">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                Salir
+                            </button>
+                        </form>
+
+                    </div>
+                    
+                </div>
+            </div>
+    
+            <div class="col" id="tabla">
+                <h1 class="text-center display-4 title mt=4">Usuarios</h1>
+                <table class="egt">
+                    <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Edad</th>
+                      <th>Fecha</th>
+                    </tr>
+                  
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                  
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                  </table>
+            </div>
+
+        </div>
+            
+        
+    </div>
+    
+</body>
+</html>

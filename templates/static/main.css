@@ -1,0 +1,43 @@
+.title{
+    font-family: 'Notable', sans-serif;
+}
+
+body{
+    background: #bdc3c7;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #2c3e50, #bdc3c7);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #2c3e50, #bdc3c7); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+.inner
+{
+    display: inline-block;
+}
+
+div#general{
+    margin: auto;
+    height: 800px;
+    width: 1200px;
+    background-color: red;
+}
+
+div#formulario{
+    margin: auto;
+    height: 800px;
+    width: 300px;
+    background-color: blue;
+    float: left;
+}
+
+div#tabla{
+    margin: auto;
+    height: 800px;
+    width: 900px;
+    background-color: green;
+    float: right;
+}
+
+div#admin{
+    margin: auto;
+    align-content:center;
+}

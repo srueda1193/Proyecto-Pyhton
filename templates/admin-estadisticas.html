@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Estadisticas</title>
+    <!--css de bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.5.2/sandstone/bootstrap.min.css">
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
+    <!--css propio-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+</head>
+<body >
+
+    <div id='general'>
+        <div class="row">
+            <div class="col-md-4 " id="formulario">
+                <div class="text-center" >
+                    <img src="/templates/img/user.png" alt="icono">
+                    <h6>Administrador: </h6>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="col">
+                    <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
+                        <div class="card-body">
+                            <form action="">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Descargar Datos
+                                </button>
+                            </form>
+
+                        </div>
+                        <div class="card-body">
+                            <form action="/menu-admin">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    Regresar
+                                </button>
+                            </form>
+
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col" id="tabla">
+                <h1 class="text-center display-4 title mt=4">Estadisticas Registradas</h1>
+                <div class="col-md-4 offset-md-4">
+                    <div class="col">
+                        <img src="\img\user.png" alt="imagen" width="400" height="400"> 
+                    </div>
+                    <div class="col">
+                        <img src="\img\user.png" alt="imagen2" width="400" height="400">
+                    </div>
+                    <div class="col">
+                        <img src="\img\user.png" alt="imagen3" width="400" height="400">
+                    </div>
+
+                </div>
+                
+            </div>
+
+        </div>
+            
+        
+    </div>
+    
+</body>
+</html>
