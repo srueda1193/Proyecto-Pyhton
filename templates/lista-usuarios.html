@@ -78,10 +78,12 @@
                 <h1 class="text-center display-4 title mt=4">Usuarios</h1>
                 <table class="egt">
                     <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Edad</th>
-                      <th>Fecha</th>
+                        {%for persona in personas%}
+                        {{persona.nombre}}
+                        {%endfor%}
+                      <th>ID<li></li></th>
+                      <th>Nombre<li></li></th>
+                      <th>Edad<li></li></th>
                     </tr>
                   
                     <tr>
