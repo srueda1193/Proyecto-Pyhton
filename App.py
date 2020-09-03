@@ -30,6 +30,22 @@ class Admin(db.Model):
     nombre = db.Column(db.String(50))
     password = db.Column(db.String(50))
 
+# class DATA(db.Model):
+#     id = db.Column(db.Integer)
+#     idPersona = db.Column(db.String(10))
+#     idSecion = db.Column(db.Integer)
+    # enojado = db.Column(db.Numeric)
+    # disgusto = db.Column(REAL)
+    # miedo = db.Column(REAL)
+    # feliz = db.Column(REAL)
+    # triste = db.Column(REAL)
+    # sorpresa = db.Column(REAL)
+    # neutral = db.Column(REAL)
+
+
+# createTable = "CREATE TABLE DATA(id INTEGER,idPersona varchar(10), 
+# idSecion INTEGER, enojado REAL, disgusto REAL, miedo REAL, feliz REAL, triste REAL, sorpresa REAL, neutral REAL)"
+
 ####Metodos para el redicreccionamiento de botones
 
 @app.route('/')
@@ -85,12 +101,12 @@ def create():
         if request.form.get('Iniciar') == 'Iniciar':
             # pass
             print("Iniciar")
-            estado_req = False
+            estado_req = True
         elif  request.form.get('Detener') == 'Detener':
             # pass # do something else
             print("Detener")
             
-            estado_req = True
+            estado_req = False
         else:
             # pass # unknown
             nacimiento= request.form['edad']
@@ -146,10 +162,10 @@ def video_stream():
     contador=0
     secion = "3"
     persona = "1717171717"
-    if video_camera == None:
+    if estado_req:
         video_camera = VideoCamera()
         
-    while True:
+    while estado_req:
         frame = video_camera.get_frame()
         datos=video_camera.datos
         
@@ -167,11 +183,7 @@ def video_stream():
                 b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         else:
             yield (b'--frame\r\n'
-                b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')   
-        if(estado_req):            
-            break
-        else:
-            print("into")        
+                b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')       
     video_camera = None
     yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')
