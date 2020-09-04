@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Graficos</title>
+</head>
+<body>
+    <h1>graficos</h1>
+    <img id="grafico" src="{{ url_for('build_plot') }}">
+    
+    <form action="/administrador">
+        <button type="submit" class="btn btn-primary btn-block">entrar como administrador</button>                    
+    </form>
+</body>
+</html>

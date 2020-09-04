@@ -4,6 +4,11 @@ import sqlite3
 import os
 import datetime as dt
 from camera import VideoCamera
+import numpy as np
+import matplotlib.pyplot as plt
+import io
+import base64
+
 
 APP_PATH = os.getcwd()
 BD_PATH = 'templates\database\proyecto_python.db'
@@ -18,6 +23,9 @@ db = SQLAlchemy(app)
 video_camera = None
 global_frame = None
 estado_req=False
+
+# database conector
+
 
 class Persona(db.Model):
     id = db.Column(db.String(10), primary_key= True)
@@ -94,7 +102,7 @@ def resultado_final():
 ###############metodos para traer datos o cargarlo en el sql y el servidor
 
 @app.route('/create-user', methods=['GET', 'POST'])
-def create():
+def create():    
     global estado_req
     print(request.method)
     if request.method == 'POST':
@@ -159,8 +167,10 @@ def video_stream():
     global video_camera
     global global_frame
     global estado_req
+    connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
+    cursorObject = connectionObject.cursor()
     contador=0
-    secion = "3"
+    secion = "5"
     persona = "1717171717"
     if estado_req:
         video_camera = VideoCamera()
@@ -169,10 +179,11 @@ def video_stream():
         frame = video_camera.get_frame()
         datos=video_camera.datos
         
-        if(sum(datos)>=100):        
+        if(sum(datos)>=10):        
             normalizados = [float(i)/sum(datos) for i in datos]
-            # insertValues = "INSERT INTO DATA values("+str(contador)+","+persona+","+secion+","+str(normalizados[0])+","+str(normalizados[1])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(normalizados[6])+")"
-            # cursorObject.execute(insertValues)
+            insertValues = "INSERT INTO DATA values("+str(contador)+","+persona+","+secion+","+str(normalizados[0])+","+str(normalizados[1])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(normalizados[6])+")"
+            cursorObject.execute(insertValues)
+            connectionObject.commit()
             print(normalizados)
             contador = contador + 1
             video_camera.datos = [0,0,0,0,0,0,0]           
@@ -187,13 +198,68 @@ def video_stream():
     video_camera = None
     yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')
+    connectionObject.close()
+    # cursorObject.close()
+
 
 @app.route('/video_viewer')
 def video_viewer():
     return Response(video_stream(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/graficos')
+def graficos():
+    return render_template('graficos.html')
 
+# plot 
+@app.route('/build_plot')
+def build_plot():
+    connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
+    cursorObject = connectionObject.cursor()
+    queryTable = "SELECT * from DATA"
+    queryResults = cursorObject.execute(queryTable)
+    print("Datos registrados:")
+    data = []
+    for result in queryResults:
+        data.append(result[3:])      
+
+    x=np.array(data)
+    y=np.transpose(x)
+    
+    x = range(len(x))
+
+    fig, a = plt.subplots(7, sharex=True, sharey=True, gridspec_kw={'hspace': 0})
+    connectionObject.close()
+    fig.suptitle('Emociones')
+    
+    a[0].plot(x, y[0])
+    a[0].text(-6, .5, 'Enojado')
+    
+    a[1].plot(x, y[1], 'tab:orange')
+    a[1].text(-6, .5, 'Disgusto')
+    
+    a[2].plot(x, y[2], 'tab:green')
+    a[2].text(-6, .5, 'Miedo')
+    
+    a[3].plot(x, y[3], 'tab:red')
+    a[3].text(-6, .5, 'Feliz')
+    
+    a[4].plot(x, y[4], 'tab:blue')
+    a[4].text(-6, .5, 'Triste')
+    
+    a[5].plot(x, y[5], 'tab:green')
+    a[5].text(-6, .5, 'Sorpresa')
+    
+    a[6].plot(x, y[6],  'tab:orange')
+    a[6].text(-6, .5, 'Neutral')
+    # plt.axis([0, 160, 0, 1])
+    # descargar
+    # plt.savefig('grafica_lineal.png')
+    plt.rcParams["figure.figsize"] = (20,3)
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    return img.getvalue()
 
 if __name__ == '__main__':
     app.run(debug=True)

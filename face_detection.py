@@ -5,7 +5,7 @@ import numpy as np
 
 import sqlite3
 
-connectionObject = sqlite3.connect("database.db")
+connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
 cursorObject = connectionObject.cursor()
 # createTable = "CREATE TABLE EMP(id int,idPersona varchar(10), idSecion int, enojado, disgusto, miedo, feliz, triste, sorpresa, neutral)"
 
