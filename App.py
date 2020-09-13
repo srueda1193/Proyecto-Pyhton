@@ -145,7 +145,7 @@ def create_admin():
     nombre=request.form['nombre']
     password= request.form['password']
     ############ aca debo hacer una consulta para que me traiga los nombres y los passwords para compararlos y permitir el ingreso
-    if((nombre == 'sebas' and password=='sebas') or (nombre == 'patrick' and password == 'patrick')):
+    if((nombre == 'patrick' and password == 'patrick')):
         admin = Admin(nombre=request.form['nombre'],password= request.form['password'])
         db.session.commit()
         return render_template('lista-usuarios.html')
@@ -262,4 +262,6 @@ def build_plot():
     return img.getvalue()
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(port=5000,debug=True)
+
+    #host='192.168.0.10',

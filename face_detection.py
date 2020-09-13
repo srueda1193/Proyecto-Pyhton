@@ -16,15 +16,15 @@ cursorObject = connectionObject.cursor()
 import time
 # Load the cascade
 face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
-# label_mapdisgust = ['enojo', 'desprecio', 'disgusto', 'miedo', 'feliz', 'tristeza', 'sorpresa']# 1
-label_mapdisgust = ['enojado', 'disgusto', 'miedo', 'feliz', 'triste', 'sorpresa', 'neutral']#2
 
-# model = load_model("/home/d/Descargas/Fer2013_55E.hdf5")#1
-model = load_model("/home/d/Descargas/model_filter.h5")#2
+label_mapdisgust = ['enojado', 'disgusto', 'miedo', 'feliz', 'triste', 'sorpresa', 'neutral']
+
+
+model = load_model("/home/d/Descargas/model_filter.h5")
 
 datos = [0,0,0,0,0,0,0]
 contador=0
-secion = "3"
+secion = "4"
 # To capture video from webcam. 
 cap = cv2.VideoCapture(0)
 padding = 20
@@ -57,7 +57,7 @@ while True:
             continue
         # print(rostro.shape)
         if(not(rostro.shape[0]==48 and rostro.shape[1]==48)):
-            continue
+            continue# model = load_model("/home/d/Descargas/Fer2013_55E.hdf5")#1
         gray_small = rostro.reshape(1,48,48,1)
         
         # rostro = cv2.resize(rostro,(50,50),interpolation= cv2.INTER_CUBIC)
