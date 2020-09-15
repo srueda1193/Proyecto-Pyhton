@@ -38,7 +38,7 @@
                         </form>
 
                     </div>
-                    <div>
+                    <div> 
                         <form action="/graficos">
                             <button type="submit" class="btn btn-primary btn-block">Graficas</button>                    
                         </form>
@@ -68,41 +68,28 @@
                     </div>
                     
                 </div>
-            </div>
-    
-            <div class="col" id="tabla">
-                <h1 class="text-center display-4 title mt=4">Usuarios</h1>
-                <table class="egt">
+            </div>    
+            
+            <div class="card-body">
+                <h2 class="text-center">Usuarios</h2>
+                <table style="width:100%">
                     <tr>
-                        {%for persona in personas%}
-                        {{persona.nombre}}
-                        {%endfor%}
-                      <th>ID<li></li></th>
-                      <th>Nombre<li></li></th>
-                      <th>Edad<li></li></th>
+                    <th>Cedula</th>
+                    <th>Nombre</th>
+                    <th>Edad</th>
+                    <th></th>
+                    <th></th>
                     </tr>
-                  
+                    {% for usuario in lista_usuarios %}
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    <td>{{usuario.id}}</td>
+                    <td>{{usuario.nombre}}</td>
+                    <td>{{usuario.nacimiento}}</td>
+                    <td><a href="/graficosUsuario/{{usuario.id}}" class="btn btn-success btn-sm">Ver</a></td>
+                    <td><a href="/delete/{{usuario.id}}" class="btn btn-danger btn-sm">Eliminar</a></td>
                     </tr>
-                  
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                  </table>
+                    {% endfor %}            
+                </table> 
             </div>
 
         </div>

@@ -23,7 +23,8 @@ db = SQLAlchemy(app)
 video_camera = None
 global_frame = None
 estado_req=False
-
+cedula = ''
+secion = 0
 # database conector
 
 
@@ -37,22 +38,6 @@ class Admin(db.Model):
     id_admin = db.Column(db.Integer, primary_key= True)
     nombre = db.Column(db.String(50))
     password = db.Column(db.String(50))
-
-# class DATA(db.Model):
-#     id = db.Column(db.Integer)
-#     idPersona = db.Column(db.String(10))
-#     idSecion = db.Column(db.Integer)
-    # enojado = db.Column(db.Numeric)
-    # disgusto = db.Column(REAL)
-    # miedo = db.Column(REAL)
-    # feliz = db.Column(REAL)
-    # triste = db.Column(REAL)
-    # sorpresa = db.Column(REAL)
-    # neutral = db.Column(REAL)
-
-
-# createTable = "CREATE TABLE DATA(id INTEGER,idPersona varchar(10), 
-# idSecion INTEGER, enojado REAL, disgusto REAL, miedo REAL, feliz REAL, triste REAL, sorpresa REAL, neutral REAL)"
 
 ####Metodos para el redicreccionamiento de botones
 
@@ -104,6 +89,8 @@ def resultado_final():
 @app.route('/create-user', methods=['GET', 'POST'])
 def create():    
     global estado_req
+    global cedula
+    global secion
     print(request.method)
     if request.method == 'POST':
         if request.form.get('Iniciar') == 'Iniciar':
@@ -121,6 +108,8 @@ def create():
             tokens = nacimiento.split("-")
             print(tokens)
             fecha = dt.date(int(tokens[0]),int(tokens[1]),int(tokens[2]))
+            cedula = request.form['cedula']
+            secion = 0
             usuario = Persona(nombre=request.form['nombre'],id=(request.form['cedula']),nacimiento= fecha)
             db.session.add(usuario)
             db.session.commit()
@@ -148,10 +137,21 @@ def create_admin():
     if((nombre == 'patrick' and password == 'patrick')):
         admin = Admin(nombre=request.form['nombre'],password= request.form['password'])
         db.session.commit()
-        return render_template('lista-usuarios.html')
+        return redirect(url_for('listaUsuarios'))
     else:
         return 'error al ingresar'
     
+def generaUsuarios():
+    connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
+    cursorObject = connectionObject.cursor()
+    queryTable = "SELECT * from persona"
+    queryResults = cursorObject.execute(queryTable)
+    for i in queryResults:
+        print(i)
+    connectionObject.close()
+    return queryResults   
+
+
 @app.route('/tabla-usuarios', methods=['POST'])
 def escribir_table():
     persona = db.Query(Persona)
@@ -167,11 +167,12 @@ def video_stream():
     global video_camera
     global global_frame
     global estado_req
+    global cedula
+    global secion
+    print(cedula)
     connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
     cursorObject = connectionObject.cursor()
     contador=0
-    secion = "5"
-    persona = "1717171717"
     if estado_req:
         video_camera = VideoCamera()
         
@@ -181,7 +182,7 @@ def video_stream():
         
         if(sum(datos)>=10):        
             normalizados = [float(i)/sum(datos) for i in datos]
-            insertValues = "INSERT INTO DATA values("+str(contador)+","+persona+","+secion+","+str(normalizados[0])+","+str(normalizados[1])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(normalizados[6])+")"
+            insertValues = "INSERT INTO DATA values("+str(contador)+","+str(cedula)+","+str(secion)+","+str(normalizados[0])+","+str(normalizados[1])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(normalizados[6])+")"
             cursorObject.execute(insertValues)
             connectionObject.commit()
             print(normalizados)
@@ -198,6 +199,7 @@ def video_stream():
     video_camera = None
     yield (b'--frame\r\n'
         b'Content-Type: image/jpeg\r\n\r\n' + global_frame + b'\r\n\r\n')
+    secion = secion + 1
     connectionObject.close()
     # cursorObject.close()
 
@@ -214,9 +216,10 @@ def graficos():
 # plot 
 @app.route('/build_plot')
 def build_plot():
+    global cedula
     connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
     cursorObject = connectionObject.cursor()
-    queryTable = "SELECT * from DATA"
+    queryTable = "SELECT * from DATA where idPersona = "+str(cedula)
     queryResults = cursorObject.execute(queryTable)
     print("Datos registrados:")
     data = []
@@ -260,6 +263,27 @@ def build_plot():
     plt.savefig(img, format='png')
     img.seek(0)
     return img.getvalue()
+
+
+@app.route('/graficosUsuario/<id>')
+def graficosUsuario(id):
+    global cedula
+    cedula = id
+    return render_template('graficos.html')
+
+
+
+@app.route('/delete/<id>')
+def delete(id):
+    Persona.query.filter_by(id=int(id)).delete()
+    db.session.commit()
+    return redirect(url_for('listaUsuarios'))
+    
+
+@app.route('/listaUsuarios')
+def listaUsuarios():
+    lista_usuarios = Persona.query.all()
+    return render_template('lista-usuarios.html', lista_usuarios = lista_usuarios)
 
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
