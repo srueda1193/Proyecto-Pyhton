@@ -20,7 +20,7 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalf
 label_mapdisgust = ['enojado', 'neutral', 'miedo', 'feliz', 'triste', 'sorpresa']
 
 
-model = load_model("/home/d/Documentos/flaskProject/Proyecto-Pyhton/modelo/model_filter_200EF1.h5")
+model = load_model("/home/d/Documentos/flaskProject/Proyecto-Pyhton/modelo/model.h5")
 
 datos = [0,0,0,0,0,0]
 contador=0

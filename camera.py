@@ -7,8 +7,8 @@ import numpy as np
 
 class VideoCamera(object):
     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades+'haarcascade_frontalface_default.xml')
-    label_mapdisgust = ['enojado', 'disgusto', 'miedo', 'feliz', 'triste', 'sorpresa', 'neutral']
-    model = load_model("/home/d/Descargas/model_filter.h5")
+    label_mapdisgust = ['enojado', 'neutral', 'miedo', 'feliz', 'triste', 'sorpresa', 'neutral']    
+    model = load_model("/home/d/Documentos/flaskProject/Proyecto-Pyhton/modelo/model.h5")
     datos = [0,0,0,0,0,0,0]
        
     

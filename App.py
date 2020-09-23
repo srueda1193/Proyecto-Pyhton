@@ -196,7 +196,7 @@ def video_stream():
         
         if(sum(datos)>=10):        
             normalizados = [float(i)/sum(datos) for i in datos]
-            insertValues = "INSERT INTO DATA values("+str(contador)+","+str(cedula)+","+str(secion)+","+str(normalizados[0])+","+str(normalizados[1])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(normalizados[6])+")"
+            insertValues = "INSERT INTO DATA values("+str(contador)+","+str(cedula)+","+str(secion)+","+str(normalizados[0])+","+str(normalizados[1]+normalizados[6])+","+str(normalizados[2])+","+str(normalizados[3])+","+str(normalizados[4])+","+str(normalizados[5])+","+str(0)+")"
             cursorObject.execute(insertValues)
             connectionObject.commit()
             print(normalizados)
@@ -253,7 +253,7 @@ def build_plot():
     a[0].text(0, .5, 'Enojado')
     
     a[1].plot(x, y[1], 'tab:orange')
-    a[1].text(0, .5, 'Disgusto')
+    a[1].text(0, .5, 'Neutral')
     
     a[2].plot(x, y[2], 'tab:green')
     a[2].text(0, .5, 'Miedo')
