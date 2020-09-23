@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 import base64
-
+plt.rcParams["figure.figsize"] = (13,7)
 
 APP_PATH = os.getcwd()
 BD_PATH = 'templates\database\proyecto_python.db'
@@ -38,6 +38,20 @@ class Admin(db.Model):
     id_admin = db.Column(db.Integer, primary_key= True)
     nombre = db.Column(db.String(50))
     password = db.Column(db.String(50))
+
+
+
+# class DATA(db.Model):
+#     id = db.Column(db.Integer)
+#     idPersona = db.Column(db.String(10))
+#     idSecion = db.Column(db.Integer)
+#     enojado = db.Column(db.Numeric)
+#     neutral = db.Column(db.Numeric)
+#     miedo = db.Column(db.Numeric)
+#     feliz = db.Column(db.Numeric)
+#     triste = db.Column(db.Numeric)
+#     sorpresa = db.Column(db.Numeric)
+
 
 ####Metodos para el redicreccionamiento de botones
 
@@ -216,12 +230,13 @@ def graficos():
 # plot 
 @app.route('/build_plot')
 def build_plot():
+    
     global cedula
     connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
     cursorObject = connectionObject.cursor()
     queryTable = "SELECT * from DATA where idPersona = "+str(cedula)
     queryResults = cursorObject.execute(queryTable)
-    print("Datos registrados:")
+    # print("Datos registrados:")
     data = []
     for result in queryResults:
         data.append(result[3:])      
@@ -231,34 +246,31 @@ def build_plot():
     
     x = range(len(x))
 
-    fig, a = plt.subplots(7, sharex=True, sharey=True, gridspec_kw={'hspace': 0})
-    connectionObject.close()
-    fig.suptitle('Emociones')
+    fig, a = plt.subplots(6, sharex=True, sharey=True, gridspec_kw={'hspace': 0})
+    connectionObject.close()    
     
     a[0].plot(x, y[0])
-    a[0].text(-6, .5, 'Enojado')
+    a[0].text(0, .5, 'Enojado')
     
     a[1].plot(x, y[1], 'tab:orange')
-    a[1].text(-6, .5, 'Disgusto')
+    a[1].text(0, .5, 'Disgusto')
     
     a[2].plot(x, y[2], 'tab:green')
-    a[2].text(-6, .5, 'Miedo')
+    a[2].text(0, .5, 'Miedo')
     
     a[3].plot(x, y[3], 'tab:red')
-    a[3].text(-6, .5, 'Feliz')
+    a[3].text(0, .5, 'Feliz')
     
     a[4].plot(x, y[4], 'tab:blue')
-    a[4].text(-6, .5, 'Triste')
+    a[4].text(0, .5, 'Triste')
     
     a[5].plot(x, y[5], 'tab:green')
-    a[5].text(-6, .5, 'Sorpresa')
+    a[5].text(0, .5, 'Sorpresa')
     
-    a[6].plot(x, y[6],  'tab:orange')
-    a[6].text(-6, .5, 'Neutral')
     # plt.axis([0, 160, 0, 1])
     # descargar
     # plt.savefig('grafica_lineal.png')
-    plt.rcParams["figure.figsize"] = (20,3)
+    
     img = io.BytesIO()
     plt.savefig(img, format='png')
     img.seek(0)
@@ -271,20 +283,48 @@ def graficosUsuario(id):
     cedula = id
     return render_template('graficos.html')
 
-
-
 @app.route('/delete/<id>')
 def delete(id):
+    connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
+    cursorObject = connectionObject.cursor()    
+    queryTable = "DELETE FROM DATA WHERE idPersona = "+id
+    cursorObject.execute(queryTable)
+    connectionObject.commit()
+    connectionObject.close()
+
     Persona.query.filter_by(id=int(id)).delete()
     db.session.commit()
+    
     return redirect(url_for('listaUsuarios'))
     
 
 @app.route('/listaUsuarios')
 def listaUsuarios():
     lista_usuarios = Persona.query.all()
+    # generaEdad(lista_usuarios)
     return render_template('lista-usuarios.html', lista_usuarios = lista_usuarios)
 
+def generaEdad(lista):
+    for i in lista:
+        # i.nacimiento = str(edad( i.nacimiento.date() ))
+        print(edad( i.nacimiento.date() ))
+
+def edad(naci):
+    hoy = dt.date.today()
+    edad = 0
+    if hoy < naci:
+        print('error en la fecha de nacimiento')
+    else:
+        ano = naci.year
+        mes = naci.month
+        dia = naci.day
+        fecha = naci
+        edad = 0
+        while fecha < hoy:
+            edad += 1
+            fecha = dt.date(ano+edad, mes, dia)
+        print('Mi edad es:',(edad-1))
+    return edad-1
 if __name__ == '__main__':
     app.run(port=5000,debug=True)
 
