@@ -9,110 +9,76 @@
     <!-- Fuente -->
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <!--css propio-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+    <link rel="stylesheet" href="{{'main.css'}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
 </head>
 <body >
     <div id='general'>
         <div class="row">
-            <div class="col-md-4  " id="formulario">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-
+            <div class="col-sm-4" id="formulario">
                 <div class="text-center" >
-                    <img src="/templates/img/user.png" alt="icono">
-                    <h6>Administrador: </h6>
+                    <h3>Administrador </h3>
+                    <img src="static/user.png" height="200" alt="icono">                        
                 </div>
                 <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
                     <div class="card-header">
                         <form action="">        <!--Esto es para crear el formulario-->
-                            <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus>
-                        </form>
-                        <form action="">        <!--Esto es para crear el formulario-->
-                            <input type="text" name="cedula" placeholder="cedula" class="form-control">
+                            <input type="text" name="nombre" class="form-control"  id="myInput" placeholder="Buscar.." autofocus>
                         </form>
                     </div>
+                    
                     <div class="card-body">
-                        <form action="">
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Buscar
-                            </button>
-                        </form>
-
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="card-body">
-                        <form action="/menu-admin">
+                        <form action="/">
                             <button type="submit" class="btn btn-primary btn-block">
                                 Salir
                             </button>
                         </form>
-
-                    </div>
-                    
+                    </div>                    
                 </div>
-            </div>
-    
-            <div class="col" id="tabla">
-                <h1 class="text-center display-4 title mt=4">Usuarios</h1>
-                <table class="egt">
-                    <tr>
-                        {%for persona in personas%}
-                        {{persona.nombre}}
-                        {%endfor%}
-                      <th>ID<li></li></th>
-                      <th>Nombre<li></li></th>
-                      <th>Edad<li></li></th>
-                    </tr>
-                  
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                  
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                  </table>
-            </div>
-
-        </div>
+            </div>    
             
+            <div class="card-body col-sm-8">
+                <h2 class="text-center">Usuarios</h2>
+                <table style="width:100%" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center">Cédula</th>
+                            <th style="text-align: center">Nombre</th>
+                            <th style="text-align: center">Edad</th>
+                            <th></th>
+                            <th></th>
+                            </tr>
+                    </thead>                    
+                    
+                    <tbody id="myTable">
+                        {% for usuario in lista_usuarios %}
+                        <tr>
+                            <td>{{usuario.id}}</td>
+                            <td>{{usuario.nombre}}</td>
+                            <td>{{usuario.nacimiento.date()}}</td>
+                            <td><a href="/graficosUsuario/{{usuario.id}}" class="btn btn-success btn-sm">Ver</a></td>
+                            <td><a href="/delete/{{usuario.id}}" class="btn btn-danger btn-sm">Eliminar</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>                    
+                            
+                </table> 
+            </div>
+        </div>            
         
     </div>
+    <script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script>
     
 </body>
 </html>
