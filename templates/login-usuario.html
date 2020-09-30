@@ -11,67 +11,68 @@
     <!-- Fuente -->
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
     <!--css propio-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
-
+    <link rel="stylesheet" href="{{'main.css'}}">
+    <style>
+        .padre {
+            position:relative;
+            /* height: 200px;             */
+            /* align-items: center; */
+        }
+        .hijo{
+            position: absolute;
+            /* width: 50%; */
+            /* height: 150px; */
+            /* top: 50%; */
+            left: 50%;
+            /* margin-left: -25%; */
+            margin-top: 50px;
+            
+            
+        }
+    </style>
 </head>
 
-<body>
+<body> 
+    <div class="col-md-3" >
+        <form action="/">
+            <button button type="submit" class="btn btn-primary btn-block">
+                Regresar
+            </button>
+        </form>
+    </div>     
+
+    <!-- <div class="center" style="display: flex; align-items: center; width: 500px;"> -->
+    <div class="container">
+
     
-    <main class="container p-5">
-        <br>
-        <br>
-        <br>
-        <br>
-
-            <div class="row">
-
-                <div class="col">
-                </div>
-                
-                <div class="col">
-                    <div class="col text-center">
-                        <img src="..\img\user.png">
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col">
-                        <form action="/create-user" method="POST">
-                            <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
-                                <div class="card-header">
-                                    <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus>
-                                </div>
-                                <div class="card-header">
-                                    <input type="text" name="cedula" placeholder="cedula" class="form-control">
-                                </div>
-                                <div class="card-header">
-                                    <input type="date" name="edad" placeholder="Fecha de nacimiento" class="form-control">
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <button type="submit" class="btn btn-primary btn-block">
-                                Ingresar
-                            </button>
-                        </form>
-
-                    </div>  
-                    
-                </div>
-                <div class="col-md-4" >
-                    <form action="/">
-                        <button button type="submit" class="btn btn-primary btn-block">
-                            Cerrar Sistema
-                        </button>
-                    </form>
-                </div> 
-
-                
+    <div class="padre" >
+        <div class="hijo">      
+            <div class="text-center " style="width: 500px;" >
+                <img src="static/user.png" height="200">
             </div>
-    </main>
+
+            <div class="container">
+        
+                <form action="/create-user" method="POST">
+                    <div class="card">             <!--Esto es para crear el cuadrito que contiene el formulario-->
+                        <div class="card-header">
+                            <input type="text" name="nombre" placeholder="Nombre" class="form-control" autofocus>
+                        </div>
+                        <div class="card-header">
+                            <input type="text" name="cedula" placeholder="cedula" class="form-control">
+                        </div>
+                        <div class="card-header">
+                            <input type="date" name="edad" placeholder="Fecha de nacimiento" class="form-control">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Ingresar
+                    </button>
+                </form>
+            </div> 
+        </div>        
+    </div>
+</div>       
 </body>
 </html>

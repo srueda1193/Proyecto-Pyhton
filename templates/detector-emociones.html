@@ -9,21 +9,16 @@
         <!-- Fuente -->
         <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&display=swap" rel="stylesheet">
         <!--css propio-->
-        <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}">
+        <link rel="stylesheet" href="{{'main.css'}}">
 </head>
 <body>
     <!--Este es el contenedor de todo-->
     <div main class="container-4 text-center mt-5">
 
         <!--Esta es la division para la pantalla de la camara-->
-        <div class="col ">
-            <h1>Hola mundo</h1>
-            <h1>asdfa</h1>
-            <h1>asdfasf</h1>
-            <h1>xzcbzxv</h1>
-            <h1>qwerqwer</h1>
-            <h1>xgcnhd</h1>
-            <h1>ertyeryre</h1>
+        <div>
+            <h2>Camara</h2>
+            <img id="video" src="{{ url_for('video_viewer') }}">
         </div>
 
         <!--Esta es la division para los botones-->
@@ -31,20 +26,18 @@
             <div class="row">
                 <!--Estas son las columnas para los botones-->
                 <div class="col">
-                    <form action="" class="mt-4">
-                        <button class="btn btn-primary btn-block">Iniciar</button>
+                    <form method="post" action="/create-user">                    
+                        <input class="btn btn-primary btn-block" type="submit" value="Iniciar" name="Iniciar"/>
+                        <input class="btn btn-primary btn-block" type="submit" value="Detener" name="Detener"/>
                     </form>
-                    <form action="" class="mt-4">
-                        <button class="btn btn-primary btn-block">Detener</button>
-                    </form>
-                </div>
+                </div> 
                 <div class="col">
-                    <form action="/estadisticas-tr" method="GET">
+                    <form action="/graficos" method="GET">
                         <button class="btn btn-primary btn-block mt-4">
                             Estadisticas
                         </button>
                     </form>
-                    <form action="/estadisticas-finales" method="GET">
+                    <form action="/" method="GET">
                         <button class="btn btn-primary btn-block mt-4">
                             terminar
                         </button>
