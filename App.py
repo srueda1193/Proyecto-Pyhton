@@ -8,6 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 import base64
+import pandas as pd
+import xlsxwriter
+
+
 plt.rcParams["figure.figsize"] = (13,7)
 
 APP_PATH = os.getcwd()
@@ -39,18 +43,6 @@ class Admin(db.Model):
     nombre = db.Column(db.String(50))
     password = db.Column(db.String(50))
 
-
-
-# class DATA(db.Model):
-#     id = db.Column(db.Integer)
-#     idPersona = db.Column(db.String(10))
-#     idSecion = db.Column(db.Integer)
-#     enojado = db.Column(db.Numeric)
-#     neutral = db.Column(db.Numeric)
-#     miedo = db.Column(db.Numeric)
-#     feliz = db.Column(db.Numeric)
-#     triste = db.Column(db.Numeric)
-#     sorpresa = db.Column(db.Numeric)
 
 
 ####Metodos para el redicreccionamiento de botones
@@ -135,12 +127,6 @@ def create():
     ###### al metodo es ingresar por parametro el nombre y la sentencia y que me retorne si existen coincidencias con las claves primarias para imprimir un error
     ###### otro metodo puede ser parar verificar los usuarios y contrasenias para lafuncion de abajo
     return render_template('detector-emociones.html')
-
-
-
-
-
-
 
 
 @app.route('/create-admin', methods=['POST'])
@@ -242,12 +228,12 @@ def build_plot():
         data.append(result[3:])      
 
     x=np.array(data)
-    y=np.transpose(x)
+    y=np.transpose(x)  
     
     x = range(len(x))
 
     fig, a = plt.subplots(6, sharex=True, sharey=True, gridspec_kw={'hspace': 0})
-    connectionObject.close()    
+    connectionObject.close() 
     
     a[0].plot(x, y[0])
     a[0].text(0, .5, 'Enojado')
@@ -276,6 +262,37 @@ def build_plot():
     img.seek(0)
     return img.getvalue()
 
+@app.route('/decargarDatos/<id>')
+def decargarDatos(id):
+    global cedula
+    cedula = id
+    connectionObject = sqlite3.connect("templates/database/proyecto_python.db")
+    cursorObject = connectionObject.cursor()
+    queryTable = "SELECT * from DATA where idPersona = "+str(cedula)
+    queryResults = cursorObject.execute(queryTable)
+    # print("Datos registrados:")
+    data = []
+    for result in queryResults:
+        data.append(result[3:])      
+
+    x=np.array(data)
+    y=np.transpose(x)
+    max=y.shape[1]
+
+    emociones=['enojado', 'neutral', 'miedo', 'feliz', 'triste', 'sorpresa', 'neutral']
+    col= ['A','B','C','D','E','F']
+    
+    workbook = xlsxwriter.Workbook('descargas/datos_'+cedula+'.xlsx')
+    worksheet = workbook.add_worksheet()
+    for i in range(6):   
+        worksheet.write_column(col[i]+'1',y[i])
+
+        chart = workbook.add_chart({'type': 'line'})
+        chart.add_series({'values': '=Sheet1!$'+col[i]+'$1:$'+col[i]+'$'+str(max),'name':emociones[i]})
+        
+        worksheet.insert_chart(col[i]+str(max+1), chart)
+    workbook.close()
+    return redirect(url_for('listaUsuarios'))
 
 @app.route('/graficosUsuario/<id>')
 def graficosUsuario(id):

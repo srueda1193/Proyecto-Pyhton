@@ -17,7 +17,7 @@
 <body >
     <div id='general'>
         <div class="row">
-            <div class="col-sm-4" id="formulario">
+            <div class="col-sm-4" id="formulario"> 
                 <div class="text-center" >
                     <h3>Administrador </h3>
                     <img src="static/user.png" height="200" alt="icono">                        
@@ -59,6 +59,7 @@
                             <td>{{usuario.nombre}}</td>
                             <td>{{usuario.nacimiento.date()}}</td>
                             <td><a href="/graficosUsuario/{{usuario.id}}" class="btn btn-success btn-sm">Ver</a></td>
+                            <td><a href="/decargarDatos/{{usuario.id}}" class="btn btn-primary btn-sm">Descargar</a></td>
                             <td><a href="/delete/{{usuario.id}}" class="btn btn-danger btn-sm">Eliminar</a></td>
                         </tr>
                         {% endfor %}
